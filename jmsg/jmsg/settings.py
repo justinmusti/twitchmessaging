@@ -124,3 +124,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Use Referenced User model from core.User
+AUTH_USER_MODEL = 'core.User'
