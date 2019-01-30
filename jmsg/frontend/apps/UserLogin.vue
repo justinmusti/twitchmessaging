@@ -10,13 +10,11 @@
             <div class="field">
                 <label>Username</label>
                 <input type="text" v-model="username" name="username" placeholder="Username"/>
-                <div>Username: {{username}}</div>
             </div>
 
             <div class="field">
                 <label>Password</label>
                 <input type="password" v-model="password" name="password" placeholder="Password"/>
-                <div>Password: {{password}}</div>
             </div>
 
             <div class="field">
@@ -30,6 +28,10 @@
 
     export default {
 
+        props: {
+            login_url: {required: true}
+        },
+
         data() {
             return {
                 error: '',
@@ -38,6 +40,7 @@
                 isProcessing: false
             }
         },
+
         methods: {
 
             submit: function(){
@@ -54,7 +57,7 @@
                 }
                 this.error = '';
 
-                fetch('/user/login-do/', {
+                fetch(this.login_url, {
                     method: 'POST',
                     body: JSON.stringify({username: this.username, password: this.password}),
                     headers: {

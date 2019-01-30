@@ -18,8 +18,6 @@ def login(request):
 
 
 def login_do(request):
-    import time
-    time.sleep(2)
     status = False
     status_code = 413
     error = None

@@ -2,6 +2,9 @@
 
 
 {% block content %}
-    <div id="userRegister"></div>
+    <div id="userRegister">
+
+        <user-register registration_url="{% url 'user:register_do' %}"></user-register>
+    </div>
     <script src="/static/dist/user_register.js"></script>
 {% endblock %}

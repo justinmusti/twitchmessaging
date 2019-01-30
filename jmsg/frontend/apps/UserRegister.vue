@@ -10,13 +10,11 @@
             <div class="field">
                 <label>Username</label>
                 <input type="text" v-model="username" name="username" placeholder="Username"/>
-                <div>Username: {{username}}</div>
             </div>
 
             <div class="field">
                 <label>Password</label>
                 <input type="password" v-model="password" name="password" placeholder="Password"/>
-                <div>Password: {{password}}</div>
             </div>
 
             <div class="field">
@@ -29,6 +27,9 @@
 <script>
 
     export default {
+        props: {
+            registration_url: {required: true}
+        },
 
         data() {
             return {
@@ -44,15 +45,17 @@
                 this.isProcessing = true;
                 if(!this.username){
                     this.error = 'Must provide a username';
+                    this.isProcessing = false;
                     return
                 }
                 if (!this.password) {
                     this.error = 'Must provide a password';
+                    this.isProcessing = false;
                     return
                 }
                 this.error = '';
 
-                fetch('/user/register-do/', {
+                fetch(this.registration_url, {
                     method: 'POST',
                     body: JSON.stringify({username: this.username, password: this.password}),
                     headers: {

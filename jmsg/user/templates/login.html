@@ -3,6 +3,8 @@
 
 {% block content %}
 
-<div id="userLogin"></div>
+<div id="userLogin">
+    <user-login login_url="{% url 'user:login_do' %}"></user-login>
+</div>
 <script src="/static/dist/user_login.js"></script>
 {% endblock %}

@@ -4,6 +4,5 @@ import UserRegister from './UserRegister'
 
 new Vue({
    el:'#userRegister',
-   template: '<UserRegister/>',
    components: {UserRegister}
 });
