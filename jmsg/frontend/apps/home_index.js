@@ -1,9 +1,8 @@
 import Vue from 'vue';
-import Index from './Index'
+import HomeIndex from './HomeIndex'
 
 
 new Vue({
-   el:'#appVue',
-   template: '<Index/>',
-   components: {Index}
+   el:'#vueMessages',
+   components: {HomeIndex}
 });
