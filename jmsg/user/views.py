@@ -17,6 +17,57 @@ def login(request):
     return render(request, 'login.html')
 
 
+def login_do(request):
+    import time
+    time.sleep(2)
+    status = False
+    status_code = 413
+    error = None
+    data = {}
+    try:
+        post = json.loads(request.body)
+        username = post.get('username', None)
+        password = post.get('password', None)
+
+        assert username, "Username cannot be empty."
+        assert password, "Password cannot be empty."
+        username = username.lower()
+        if not User.objects.filter(username=username).exists():
+            raise AssertionError('No account with given username')
+
+        # authenticate user
+        user = authenticate(request, username=username, password=password)
+        if not user:
+            raise AssertionError('Invalid username or password.')
+        login_user(request, user)
+        status = True
+        error = None
+        status_code = 200
+        data = {}
+
+    except AssertionError as ae:
+        status = False
+        error = str(ae)
+        status_code = 400
+        data = {}
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        status = False
+        status_code = 500
+        data = {}
+        error = "Something went wrong."
+
+    response_data = {
+        'status': status,
+        'error': error,
+        'data': data
+    }
+
+    return JsonResponse(data=response_data, status=status_code)
+
+
 def logout(request):
     logout_user(request)
     return redirect('/')

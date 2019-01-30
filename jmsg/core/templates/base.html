@@ -22,23 +22,23 @@
         <a class="item">
             Messages
         </a>
-        <a class="item">
-            Friends
-        </a>
         <div class="right menu">
             {% if request.user.is_authenticated %}
-            <a class="ui item" href="{% url 'user:logout' %}">
-                Logout
-            </a>
+                <a class="ui item" href="javascript:void(0);">
+                    {{ request.user.username|title }}
+                </a>
+                <a class="ui item" href="{% url 'user:logout' %}">
+                    Logout
+                </a>
             {% else %}
 
-            <a class="ui item" href="{% url 'user:login' %}">
-                Login
-            </a>
+                <a class="ui item" href="{% url 'user:login' %}">
+                    Login
+                </a>
 
-            <a class="ui item" href="{% url 'user:register' %}">
-                Register
-            </a>
+                <a class="ui item" href="{% url 'user:register' %}">
+                    Register
+                </a>
             {% endif %}
         </div>
     </div>
