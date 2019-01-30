@@ -124,7 +124,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+# STATIC_ROOT = ''
+
 STATIC_URL = '/static/'
+print('BASE_DIR', BASE_DIR)
+# STATICFILES_DIRS = [
+#     os.path.join(os.path.abspath(os.path.join(BASE_DIR, os.pardir)), "static"),
+# ]
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # Use Referenced User model from core.User
 AUTH_USER_MODEL = 'core.User'

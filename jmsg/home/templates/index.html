@@ -18,6 +18,13 @@
                 </div>
             </div>
             <div class="eight wide column">
+                <todo-item></todo-item>
+
+                <div id="appVue">
+                    {% templatetag openvariable %} message {% templatetag closevariable %}
+                </div>
+
+
                 <div class="in-page-message-cover">
                     <div class="ui list">
                         <div class="item">Message1</div>
@@ -25,13 +32,14 @@
                         <div class="item">Message3</div>
                         <div class="item">Message4</div>
                         <div class="item">Message5</div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
+<script src="/static/dist/home_index.js"></script>
 <style>
     .in-page-message-cover {
         display: block;

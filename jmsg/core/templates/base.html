@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css" crossorigin="anonymous">
     <!-- Add additional CSS in static file -->
-
+    <!-- Add additional CSS in static file -->
+    <!-- Add JS in static file -->
 </head>
 <body>
 <div class="ui container">
@@ -40,10 +42,11 @@
             {% endif %}
         </div>
     </div>
-
+    <script src="/static/dist/commons.js"></script>
     <div class="">
         {% block content %}{% endblock %}
     </div>
 </div>
+
 </body>
 </html>
