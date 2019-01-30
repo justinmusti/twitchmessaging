@@ -11,23 +11,38 @@
 
 </head>
 <body>
-<div class="ui grid container">
-    <div class="ui visible left vertical inverted sidebar menu">
-        <a class="item">
-            Contact 1
-        </a>
-        <a class="item">
-            Contact 2
-        </a>
-        <a class="item">
-            Contact 3
-        </a>
+<div class="ui container">
 
-    </div>
-    <div class="row">
-        <div class="column">
-            {% block content %}{% endblock %}
+    <div class="ui secondary pointing menu">
+        <a class="active item" href="/">
+            Home
+        </a>
+        <a class="item">
+            Messages
+        </a>
+        <a class="item">
+            Friends
+        </a>
+        <div class="right menu">
+            {% if request.user.is_authenticated %}
+            <a class="ui item" href="{% url 'user:logout' %}">
+                Logout
+            </a>
+            {% else %}
+
+            <a class="ui item" href="{% url 'user:login' %}">
+                Login
+            </a>
+
+            <a class="ui item" href="{% url 'user:register' %}">
+                Register
+            </a>
+            {% endif %}
         </div>
+    </div>
+
+    <div class="">
+        {% block content %}{% endblock %}
     </div>
 </div>
 </body>

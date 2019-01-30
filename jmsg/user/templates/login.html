@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h4>Login</h4>
+<form action="javascript:void(0);" method="POST" class="ui form">
+    <div class="field">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Username"/>
+    </div>
+
+    <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Password"/>
+    </div>
+
+    <div class="field">
+        <input class="ui primary fluid button" type="submit" name="submit" value="Login">
+    </div>
+
+
+</form>
+{% endblock %}
