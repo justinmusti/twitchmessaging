@@ -158,3 +158,11 @@
     }
 
 </script>
+
+
+<style scoped>
+    form {
+        border: 1px solid #222;
+    }
+
+</style>
