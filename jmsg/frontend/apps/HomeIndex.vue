@@ -67,7 +67,8 @@
                 conversationId: '',
                 contact_list: [],
                 messages: '',
-                message: ''
+                message: '',
+                websocket: null
             }
         },
 
@@ -97,30 +98,40 @@
                             return
                         }
                         this.messages = response.data.messages;
+                        return this.connectWebsocket(conversationId)
                     })
             },
 
-            sendMessage: function(conversationId){
-                fetch('/user/message/' + conversationId + '/', {
-                    method: 'POST',
-                    body: JSON.stringify({message: this.message}),
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken')
-                    }
-                }).then(response => response.json())
-                    .then(response => {
-                        if(!response.status){
-                            this.error = response.error;
-                            return;
-                        }
-                        this.message = '';
-                        this.messages.push(response.data.message);
-                    })
+            sendMessage: function(){
+                /* Webscoket Integration */
+                this.websocket.send(JSON.stringify({
+                    'message': this.message
+                }));
+                /* Webscoket Integration Ends */
+                this.message = '';
+
             },
 
             capitalizeFirstLetter: function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
+            },
+
+            connectWebsocket: function (conversationId) {
+                if (this.websocket){
+                    this.websocket.close();
+                }
+                let websocketUrl = 'ws://' + window.location.host +
+                    '/ws/tmessage/' + conversationId + '/';
+                this.websocket = new WebSocket(websocketUrl);
+                this.websocket.onclose = () => {
+                    console.log('Web Socket Connection Closed');
+                };
+                let self = this;
+                this.websocket.onmessage = (e) => {
+                    let data = JSON.parse(e.data);
+                    let message = data['message'];
+                    self.messages.push(message);
+                }
             }
         },
 

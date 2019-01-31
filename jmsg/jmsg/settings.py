@@ -41,7 +41,9 @@ INSTALLED_APPS = [
 CUSTOM_APPS = [
     'core',
     'home',
-    'user'
+    'user',
+    # 3rd Party Apps
+    'channels',
 ]
 
 INSTALLED_APPS += CUSTOM_APPS
@@ -134,3 +136,21 @@ STATICFILES_DIRS = (
 
 # Use Referenced User model from core.User
 AUTH_USER_MODEL = 'core.User'
+
+
+####################################################
+# ++++++++++++ CHANNELS SETTINGS +++++++++++++++++ #
+
+ASGI_APPLICATION = "jmsg.routing.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+# ++++++++++++ END CHANNELS SETTINGS ++++++++++++ #
+###################################################
+
