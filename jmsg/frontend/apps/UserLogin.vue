@@ -63,7 +63,8 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRFToken': getCookie('csrftoken')
-                    }
+                    },
+                    credentials: 'include'
                 }).then(res => res.json())
                     .then(response => {
 
