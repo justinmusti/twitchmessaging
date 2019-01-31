@@ -13,23 +13,40 @@
             <div class="four wide column">
                 <div class="ui vertical inverted pointing menu">
                     <a class="item" v-for="contact in contact_list"
-                        v-on:click="fetchMessages(contact.id)"
+                        v-on:click="fetchConvo(contact.id)"
                     >
                         {{ capitalizeFirstLetter(contact.username) }}
                     </a>
                 </div>
-
-
             </div>
             <div class="eight wide column">
                 <div class="in-page-message-cover">
-                    <div class="ui list">
-                        <div class="item">Message1</div>
-                        <div class="item">Message2</div>
-                        <div class="item">Message3</div>
-                        <div class="item">Message4</div>
-                        <div class="item">Message5</div>
-                        <div class="item">{{contacts_list_url}}</div>
+
+                    <div v-if="!conversationId" >
+                        Select a user to start talking.
+                    </div>
+                    <div v-if="conversationId" class="ui comments">
+                        <h3 class="ui dividing header">Messages</h3>
+                        <div class="comment" v-for="msg in messages">
+
+                            <div class="content">
+                                <a class="author">{{capitalizeFirstLetter(msg.sender_username)}}</a>
+                                <div class="text">
+                                    {{msg.text}}
+                                </div>
+                                <div class="metadata">
+                                    <span class="date">{{msg.created_at}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <form class="ui reply form" v-on:submit.prevent="sendMessage(conversationId)">
+                            <div class="field">
+                                <input v-model="message" type="text" placeholder="Type your message here"/>
+                                Message: {{message}}
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -47,14 +64,61 @@
         data() {
             return {
                 error: '',
-                contact_list: []
+                conversationId: '',
+                contact_list: [],
+                messages: '',
+                message: ''
             }
         },
 
         methods: {
-          fetchMessages: function(userId){
-              console.log('I am fired', userId )
-          },
+            fetchConvo: function (userId) {
+                fetch('/user/conversation/' + userId + '/', {
+                    method: 'GET',
+                }).then(response => response.json())
+                    .then(response => {
+                        if (!response.status) {
+                            this.error = response.error;
+                            return;
+                        }
+                        // get messages using convo id
+                        this.conversationId = response.data.conversation_id;
+                        return this.fetchMessages(response.data.conversation_id)
+                    })
+            },
+
+            fetchMessages: function(conversationId){
+                fetch('/user/messages/' + conversationId + '/', {
+                    method: 'GET',
+                }).then(response => response.json())
+                    .then(response => {
+                        if (!response.status){
+                            this.error = response.error;
+                            return
+                        }
+                        this.messages = response.data.messages;
+                    })
+            },
+
+            sendMessage: function(conversationId){
+                fetch('/user/message/' + conversationId + '/', {
+                    method: 'POST',
+                    body: JSON.stringify({message: this.message}),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                }).then(response => response.json())
+                    .then(response => {
+                        if(!response.status){
+                            this.error = response.error;
+                            return;
+                        }
+                        this.message = '';
+                        this.messages.push(response.data.message);
+                    })
+            },
+
             capitalizeFirstLetter: function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
@@ -76,5 +140,10 @@
         }
     }
 
+    function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+    }
 
 </script>
