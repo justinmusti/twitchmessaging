@@ -21,33 +21,35 @@
             </div>
             <div class="eight wide column">
                 <div class="in-page-message-cover">
+                    <div class="in-page-message-scroll">
 
-                    <div v-if="!conversationId" >
-                        Select a user to start talking.
-                    </div>
-                    <div v-if="conversationId" class="ui comments">
-                        <h3 class="ui dividing header">Messages</h3>
-                        <div class="comment" v-for="msg in messages">
+                        <div v-if="!conversationId" >
+                            Select a user to start talking.
+                        </div>
+                        <div v-if="conversationId" class="ui comments">
+                            <h3 class="ui dividing header">Messages</h3>
+                            <div class="comment" v-for="msg in messages">
 
-                            <div class="content">
-                                <a class="author">{{capitalizeFirstLetter(msg.sender_username)}}</a>
-                                <div class="text">
-                                    {{msg.text}}
-                                </div>
-                                <div class="metadata">
-                                    <span class="date">{{msg.created_at}}</span>
+                                <div class="content">
+                                    <a class="author">{{capitalizeFirstLetter(msg.sender_username)}}</a>
+                                    <div class="text">
+                                        {{msg.text}}
+                                    </div>
+                                    <div class="metadata">
+                                        <span class="date">{{msg.created_at}}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-
-                        <form class="ui reply form" v-on:submit.prevent="sendMessage(conversationId)">
-                            <div class="field">
-                                <input v-model="message" type="text" placeholder="Type your message here"/>
-                                Message: {{message}}
-                            </div>
-                        </form>
+                        <div id="scrollTo" class="ui divider"></div>
                     </div>
+
+                    <form v-if="conversationId" class="ui reply form" v-on:submit.prevent="sendMessage(conversationId)">
+                        <div class="field">
+                            <input v-model="message" type="text" placeholder="Type your message here"/>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -98,7 +100,7 @@
                             return
                         }
                         this.messages = response.data.messages;
-                        return this.connectWebsocket(conversationId)
+                        this.connectWebsocket(conversationId);
                     })
             },
 
@@ -132,6 +134,11 @@
                     let message = data['message'];
                     self.messages.push(message);
                 }
+            },
+
+            scrollMessages: () => {
+                let element = document.getElementById('scrollTo');
+                element.scrollIntoView();
             }
         },
 
@@ -146,8 +153,11 @@
                         this.contact_list = response.data
                     }
 
-                })
+                });
+        },
 
+        updated() {
+            this.scrollMessages()
         }
     }
 
@@ -161,8 +171,25 @@
 
 
 <style scoped>
-    form {
-        border: 1px solid #222;
+    .in-page-message-cover {
+        display: block;
+        border: solid 1px #efd6d6;
+        padding: 25px;
+        border-radius: 12px;
+        margin: 0 auto;
+        overflow: hidden;
+        max-height: 500px;
+    }
+    .in-page-message-scroll {
+        overflow-y: auto;
+        max-height: 300px;
+
+    }
+
+    .in-page-message-scroll:after {
+        content: '';
+        display: block;
+        height: 100%
     }
 
 </style>

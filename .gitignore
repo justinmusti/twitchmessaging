@@ -6,3 +6,4 @@ node_modules
 package-lock.json
 static/dist/*
 jmsg/static/dist/
+*.rdb
