@@ -2,3 +2,4 @@ Django==2.1.5
 pytz==2018.9
 channels==2.1.6
 channels-redis==2.3.3
+psycopg2>=2.7,<3.0
