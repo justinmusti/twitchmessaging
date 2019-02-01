@@ -4,6 +4,9 @@ import os
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
