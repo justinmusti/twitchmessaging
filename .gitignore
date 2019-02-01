@@ -8,3 +8,4 @@ static/dist/*
 jmsg/static/dist/
 *.rdb
 postgres-data
+.env
