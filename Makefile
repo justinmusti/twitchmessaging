@@ -21,5 +21,5 @@ redo:
 	make up
 
 bundle:
-	cd jmsg/frontend; npm install;	npm install -g webpack;	webpack --debug --progress
+	cd jmsg/frontend; npm install;	npm install -g webpack webpack-cli;	webpack --debug --progress
 
