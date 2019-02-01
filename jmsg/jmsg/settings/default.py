@@ -119,8 +119,6 @@ USE_TZ = True
 # STATIC_ROOT = ''
 
 STATIC_URL = '/static/'
-print('BASE_DIR', BASE_DIR, )
-
 
 STATICFILES_DIRS = (
     os.path.join(os.path.abspath(os.path.join(BASE_DIR, os.pardir)), 'static'),
@@ -133,12 +131,15 @@ AUTH_USER_MODEL = 'core.User'
 ####################################################
 # ++++++++++++ CHANNELS SETTINGS +++++++++++++++++ #
 
+REDIS_HOST = os.environ.get('REDIS_HOST', '127.0.0.1')
+REDIS_PORT = os.environ.get('REDIS_PORT', 6379)
+
 ASGI_APPLICATION = "jmsg.routing.application"
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [(REDIS_HOST, REDIS_PORT)],
         },
     },
 }
