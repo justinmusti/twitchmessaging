@@ -3,6 +3,8 @@ version: '3'
 services:
   db:
     image: postgres
+    env_file:
+      - .env
   web:
     build: .
     command: python jmsg/manage.py runserver 0.0.0.0:8000
@@ -12,6 +14,8 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    env_file:
+      - .env
   migration:
     build: .
     command: python jmsg/manage.py migrate --noinput
@@ -19,3 +23,5 @@ services:
       - .:/code
     depends_on:
       - db
+    env_file:
+      - .env
