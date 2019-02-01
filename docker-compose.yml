@@ -5,6 +5,8 @@ services:
     image: postgres
     env_file:
       - .env
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data"
   web:
     build: .
     command: python jmsg/manage.py runserver 0.0.0.0:8000
@@ -18,10 +20,12 @@ services:
       - .env
   migration:
     build: .
-    command: python jmsg/manage.py migrate --noinput
+    command: python jmsg/manage.py migrate
     volumes:
       - .:/code
     depends_on:
       - db
     env_file:
       - .env
+volumes:
+  postgres-data:

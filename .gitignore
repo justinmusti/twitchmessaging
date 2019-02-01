@@ -7,3 +7,4 @@ package-lock.json
 static/dist/*
 jmsg/static/dist/
 *.rdb
+postgres-data
