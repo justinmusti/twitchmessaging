@@ -4,16 +4,18 @@ from django.http import JsonResponse
 import json
 from django.db.models import Q
 from core.models import User, Conversation, Message
-
+from django.views.decorators.csrf import ensure_csrf_cookie, requires_csrf_token
 # Create your views here.
 
 
+@ensure_csrf_cookie
 def register(request):
     if request.user.is_authenticated:
         return render(request, 'error.html', {'error': "Seems like you are already logged in"})
     return render(request, 'register.html')
 
 
+@ensure_csrf_cookie
 def login(request):
     return render(request, 'login.html')
 

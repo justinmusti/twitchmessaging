@@ -1,4 +1,4 @@
-Django==2.1.5
+Django==2.1.4
 pytz==2018.9
 channels==2.1.6
 channels-redis==2.3.3
